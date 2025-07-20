@@ -77,8 +77,18 @@ const brands = {
 };
 
 // Primitive Label Component
-const PrimitiveLabel = ({ name, icon: Icon, color, position = "top-left" }) => {
-  const positionClasses = {
+const PrimitiveLabel = ({
+  name,
+  icon: Icon,
+  color,
+  position = "top-left",
+}: {
+  name: string;
+  icon: React.ComponentType<{ className?: string }>;
+  color: string;
+  position?: string;
+}) => {
+  const positionClasses: Record<string, string> = {
     "top-left": "-top-3 -left-1",
     "top-right": "-top-3 -right-1",
     "bottom-left": "-bottom-3 -left-1",
@@ -101,8 +111,16 @@ const PrimitiveLabel = ({ name, icon: Icon, color, position = "top-left" }) => {
 };
 
 // Accordion Variants with Primitive Outlines
-const AccordionVariant1 = ({ brand, items, showPrimitives }) => {
-  const [openItems, setOpenItems] = React.useState([]);
+const AccordionVariant1 = ({
+  brand,
+  items,
+  showPrimitives,
+}: {
+  brand: any;
+  items: any[];
+  showPrimitives: boolean;
+}) => {
+  const [openItems, setOpenItems] = React.useState<string[]>([]);
 
   return (
     <div
@@ -125,7 +143,7 @@ const AccordionVariant1 = ({ brand, items, showPrimitives }) => {
         onValueChange={setOpenItems}
         className="w-full space-y-2"
       >
-        {items.map((item, index) => (
+        {items.map((item: any, index: number) => (
           <div
             key={index}
             className={`relative ${
@@ -220,8 +238,16 @@ const AccordionVariant1 = ({ brand, items, showPrimitives }) => {
   );
 };
 
-const AccordionVariant2 = ({ brand, items, showPrimitives }) => {
-  const [openItems, setOpenItems] = React.useState(["item-0"]);
+const AccordionVariant2 = ({
+  brand,
+  items,
+  showPrimitives,
+}: {
+  brand: any;
+  items: any[];
+  showPrimitives: boolean;
+}) => {
+  const [openItems, setOpenItems] = React.useState<string[]>(["item-0"]);
 
   return (
     <div
@@ -244,7 +270,7 @@ const AccordionVariant2 = ({ brand, items, showPrimitives }) => {
         onValueChange={(value) => setOpenItems(value ? [value] : [])}
         className={`w-full border ${brand.colors.border} ${brand.rounded} ${brand.shadow} overflow-hidden`}
       >
-        {items.map((item, index) => (
+        {items.map((item: any, index: number) => (
           <div
             key={index}
             className={`relative ${
@@ -340,10 +366,18 @@ const AccordionVariant2 = ({ brand, items, showPrimitives }) => {
   );
 };
 
-const AccordionVariant3 = ({ brand, items, showPrimitives }) => {
-  const [openItems, setOpenItems] = React.useState([]);
+const AccordionVariant3 = ({
+  brand,
+  items,
+  showPrimitives,
+}: {
+  brand: any;
+  items: any[];
+  showPrimitives: boolean;
+}) => {
+  const [openItems, setOpenItems] = React.useState<string[]>([]);
 
-  const getIcon = (isOpen, index) => {
+  const getIcon = (isOpen: boolean, index: number) => {
     const icons = [
       { closed: Circle, open: CircleDot },
       { closed: Square, open: SquareCheck },
@@ -375,7 +409,7 @@ const AccordionVariant3 = ({ brand, items, showPrimitives }) => {
         onValueChange={setOpenItems}
         className="w-full space-y-3"
       >
-        {items.map((item, index) => {
+        {items.map((item: any, index: number) => {
           const isOpen = openItems.includes(`item-${index}`);
           return (
             <div
@@ -538,111 +572,6 @@ const PrimitiveLegend = () => {
           component. Each color represents a different level in the component
           hierarchy.
         </p>
-      </div>
-    </div>
-  );
-};
-
-// Primitive Anatomy Component
-const PrimitiveAnatomy = () => {
-  const primitives = [
-    {
-      name: "Accordion.Root",
-      icon: Container,
-      color: "purple",
-      description:
-        "The root container that provides context and manages state for all accordion items",
-      props: [
-        'type="single|multiple"',
-        "value",
-        "onValueChange",
-        "disabled",
-        "dir",
-        "orientation",
-      ],
-    },
-    {
-      name: "Accordion.Item",
-      icon: Box,
-      color: "blue",
-      description:
-        "A single collapsible section containing a header and content panel",
-      props: ["value", "disabled"],
-    },
-    {
-      name: "Accordion.Header",
-      icon: Layers,
-      color: "green",
-      description:
-        "Wraps the trigger button to ensure proper accessibility attributes",
-      props: ["asChild"],
-    },
-    {
-      name: "Accordion.Trigger",
-      icon: MousePointer,
-      color: "orange",
-      description:
-        "The interactive button that toggles the accordion item open/closed",
-      props: ["asChild"],
-    },
-    {
-      name: "Accordion.Content",
-      icon: FileCode,
-      color: "red",
-      description:
-        "The collapsible content area that shows/hides based on state",
-      props: ["asChild", "forceMount"],
-    },
-  ];
-
-  return (
-    <div className="bg-gray-900 text-white p-8 rounded-xl">
-      <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-        <Code2 className="w-6 h-6" />
-        Accordion Primitives
-      </h3>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-        {primitives.map((primitive) => (
-          <div
-            key={primitive.name}
-            className={`p-4 rounded-lg border-2 bg-gray-800 border-${primitive.color}-500`}
-          >
-            <div className="flex items-center gap-2 mb-2">
-              <primitive.icon
-                className={`w-5 h-5 text-${primitive.color}-400`}
-              />
-              <code className="text-sm font-mono">{primitive.name}</code>
-            </div>
-            <p className="text-xs text-gray-400 mb-2">
-              {primitive.description}
-            </p>
-            <div className="space-y-1">
-              <p className="text-xs font-semibold text-gray-500">Props:</p>
-              {primitive.props.map((prop) => (
-                <code key={prop} className="text-xs text-gray-500 block">
-                  • {prop}
-                </code>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="bg-gray-800 p-4 rounded-lg">
-        <h4 className="text-sm font-bold mb-2 text-gray-300">
-          Component Structure:
-        </h4>
-        <pre className="text-xs text-gray-400 font-mono">
-          {`<Accordion.Root>
-  <Accordion.Item>
-    <Accordion.Header>
-      <Accordion.Trigger />
-    </Accordion.Header>
-    <Accordion.Content />
-  </Accordion.Item>
-</Accordion.Root>`}
-        </pre>
       </div>
     </div>
   );
