@@ -12,7 +12,7 @@ import { useState } from "react";
 export default function AccordionVariations() {
   const [controlledValue, setControlledValue] = useState("");
   const [singleValue, setSingleValue] = useState("");
-  const [multipleValues, setMultipleValues] = useState([]);
+  const [multipleValues, setMultipleValues] = useState<string[]>([]);
 
   return (
     <div style={{ padding: "20px", fontFamily: "system-ui" }}>
