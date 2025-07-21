@@ -1029,11 +1029,6 @@ export default function BrandAccordionShowcase() {
 
       <div className="p-8">
         <div className="max-w-7xl mx-auto">
-          <p className="text-center text-gray-600 mb-8">
-            Unstyled Primitives → 3 Unique Brands × 3 Accordion Variants =
-            Complete Design System
-          </p>
-
           {/* Primitive Legend */}
           {showPrimitives && (
             <div className="mb-8">
