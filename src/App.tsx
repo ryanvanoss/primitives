@@ -2,19 +2,43 @@ import * as Accordion from "@radix-ui/react-accordion";
 import {
   ArrowRight,
   Box,
+  ChevronDown,
+  ChevronUp,
   Circle,
   CircleDot,
   Code2,
   Container,
+  Cpu,
+  Crown,
+  Database,
+  DatabaseBackup,
   Diamond,
   FileCode,
+  Heart,
+  HeartHandshake,
   Layers,
   Minus,
   MousePointer,
+  Music,
+  Music2,
+  Palette,
+  Pause,
+  Play,
   Plus,
+  Smile,
+  SmilePlus,
+  Sparkle,
+  Sparkles,
   Square,
   SquareCheck,
+  Star,
+  StarOff,
+  Terminal,
   Triangle,
+  Wifi,
+  WifiOff,
+  Zap,
+  ZapOff,
 } from "lucide-react";
 import React from "react";
 
@@ -77,18 +101,8 @@ const brands = {
 };
 
 // Primitive Label Component
-const PrimitiveLabel = ({
-  name,
-  icon: Icon,
-  color,
-  position = "top-left",
-}: {
-  name: string;
-  icon: React.ComponentType<{ className?: string }>;
-  color: string;
-  position?: string;
-}) => {
-  const positionClasses: Record<string, string> = {
+const PrimitiveLabel = ({ name, icon: Icon, color, position = "top-left" }) => {
+  const positionClasses = {
     "top-left": "-top-3 -left-1",
     "top-right": "-top-3 -right-1",
     "bottom-left": "-bottom-3 -left-1",
@@ -110,65 +124,56 @@ const PrimitiveLabel = ({
   );
 };
 
-// Accordion Variants with Primitive Outlines
-const AccordionVariant1 = ({
-  brand,
-  items,
-  showPrimitives,
-}: {
-  brand: any;
-  items: any[];
-  showPrimitives: boolean;
-}) => {
-  const [openItems, setOpenItems] = React.useState<string[]>([]);
+// Unstyled Accordion Variants - Raw Radix Primitives
+const UnstyledAccordionVariant1 = ({ items, showPrimitives }) => {
+  const [openItems, setOpenItems] = React.useState([]);
 
   return (
     <div
-      className={`relative ${
+      style={
         showPrimitives
-          ? "p-4 border-2 border-dashed border-purple-400 rounded-xl"
-          : ""
-      }`}
+          ? {
+              position: "relative",
+              padding: "16px",
+              border: "2px dashed purple",
+              borderRadius: "12px",
+            }
+          : {}
+      }
     >
       {showPrimitives && (
-        <PrimitiveLabel
-          name="Accordion.Root"
-          icon={Container}
-          color="text-purple-600"
-        />
+        <PrimitiveLabel name="Root" icon={Container} color="text-purple-600" />
       )}
       <Accordion.Root
         type="multiple"
         value={openItems}
         onValueChange={setOpenItems}
-        className="w-full space-y-2"
       >
-        {items.map((item: any, index: number) => (
+        {items.map((item, index) => (
           <div
             key={index}
-            className={`relative ${
+            style={
               showPrimitives
-                ? "p-2 border-2 border-dashed border-blue-400 rounded-lg"
-                : ""
-            }`}
+                ? {
+                    position: "relative",
+                    padding: "8px",
+                    border: "2px dashed blue",
+                    borderRadius: "8px",
+                    marginBottom: "8px",
+                  }
+                : {}
+            }
           >
             {showPrimitives && (
-              <PrimitiveLabel
-                name="Accordion.Item"
-                icon={Box}
-                color="text-blue-600"
-              />
+              <PrimitiveLabel name="Item" icon={Box} color="text-blue-600" />
             )}
-            <Accordion.Item
-              value={`item-${index}`}
-              className={`border ${brand.colors.border} ${brand.rounded} overflow-hidden ${brand.shadow}`}
-            >
+            <Accordion.Item value={`item-${index}`}>
               <div
-                className={`relative ${
+                style={
                   showPrimitives
-                    ? "border-2 border-dashed border-green-400"
-                    : ""
-                }`}
+                    ? { position: "relative", border: "2px dashed green" }
+                    : {}
+                }
               >
                 {showPrimitives && (
                   <PrimitiveLabel
@@ -180,11 +185,352 @@ const AccordionVariant1 = ({
                 )}
                 <Accordion.Header>
                   <div
-                    className={`relative ${
+                    style={
                       showPrimitives
-                        ? "border-2 border-dashed border-orange-400"
-                        : ""
-                    }`}
+                        ? { position: "relative", border: "2px dashed orange" }
+                        : {}
+                    }
+                  >
+                    {showPrimitives && (
+                      <PrimitiveLabel
+                        name="Trigger"
+                        icon={MousePointer}
+                        color="text-orange-600"
+                        position="top-center"
+                      />
+                    )}
+                    <Accordion.Trigger>
+                      {item.title}{" "}
+                      {openItems.includes(`item-${index}`) ? "−" : "+"}
+                    </Accordion.Trigger>
+                    <h4 className="font-semibold text-gray-800">
+                      Unstyled Foundation:
+                    </h4>
+                    <p>
+                      The unstyled section demonstrates Radix UI's zero-styling
+                      philosophy - primitives provide behavior and
+                      accessibility, you provide the design.
+                    </p>
+                  </div>
+                </Accordion.Header>
+              </div>
+              <div
+                style={
+                  showPrimitives && openItems.includes(`item-${index}`)
+                    ? {
+                        position: "relative",
+                        border: "2px dashed red",
+                        borderTop: "none",
+                      }
+                    : {}
+                }
+              >
+                {showPrimitives && openItems.includes(`item-${index}`) && (
+                  <PrimitiveLabel
+                    name="Content"
+                    icon={FileCode}
+                    color="text-red-600"
+                    position="bottom-right"
+                  />
+                )}
+                <Accordion.Content>{item.content}</Accordion.Content>
+              </div>
+            </Accordion.Item>
+          </div>
+        ))}
+      </Accordion.Root>
+    </div>
+  );
+};
+
+const UnstyledAccordionVariant2 = ({ items, showPrimitives }) => {
+  const [openItems, setOpenItems] = React.useState(["item-0"]);
+
+  return (
+    <div
+      style={
+        showPrimitives
+          ? {
+              position: "relative",
+              padding: "16px",
+              border: "2px dashed purple",
+              borderRadius: "12px",
+            }
+          : {}
+      }
+    >
+      {showPrimitives && (
+        <PrimitiveLabel name="Root" icon={Container} color="text-purple-600" />
+      )}
+      <Accordion.Root
+        type="single"
+        value={openItems[0]}
+        onValueChange={(value) => setOpenItems(value ? [value] : [])}
+      >
+        {items.map((item, index) => (
+          <div
+            key={index}
+            style={
+              showPrimitives
+                ? {
+                    position: "relative",
+                    border: "2px dashed blue",
+                    margin: "8px",
+                  }
+                : {}
+            }
+          >
+            {showPrimitives && (
+              <PrimitiveLabel name="Item" icon={Box} color="text-blue-600" />
+            )}
+            <Accordion.Item value={`item-${index}`}>
+              <div
+                style={
+                  showPrimitives
+                    ? { position: "relative", border: "2px dashed green" }
+                    : {}
+                }
+              >
+                {showPrimitives && (
+                  <PrimitiveLabel
+                    name="Header"
+                    icon={Layers}
+                    color="text-green-600"
+                    position="top-right"
+                  />
+                )}
+                <Accordion.Header>
+                  <div
+                    style={
+                      showPrimitives
+                        ? { position: "relative", border: "2px dashed orange" }
+                        : {}
+                    }
+                  >
+                    {showPrimitives && (
+                      <PrimitiveLabel
+                        name="Trigger"
+                        icon={MousePointer}
+                        color="text-orange-600"
+                        position="top-center"
+                      />
+                    )}
+                    <Accordion.Trigger>
+                      → {item.title} [
+                      {openItems.includes(`item-${index}`) ? "Open" : "Closed"}]
+                    </Accordion.Trigger>
+                  </div>
+                </Accordion.Header>
+              </div>
+              <div
+                style={
+                  showPrimitives && openItems.includes(`item-${index}`)
+                    ? {
+                        position: "relative",
+                        border: "2px dashed red",
+                        borderTop: "none",
+                      }
+                    : {}
+                }
+              >
+                {showPrimitives && openItems.includes(`item-${index}`) && (
+                  <PrimitiveLabel
+                    name="Content"
+                    icon={FileCode}
+                    color="text-red-600"
+                    position="bottom-right"
+                  />
+                )}
+                <Accordion.Content>{item.content}</Accordion.Content>
+              </div>
+            </Accordion.Item>
+          </div>
+        ))}
+      </Accordion.Root>
+    </div>
+  );
+};
+
+const UnstyledAccordionVariant3 = ({ items, showPrimitives }) => {
+  const [openItems, setOpenItems] = React.useState([]);
+
+  return (
+    <div
+      style={
+        showPrimitives
+          ? {
+              position: "relative",
+              padding: "16px",
+              border: "2px dashed purple",
+              borderRadius: "12px",
+            }
+          : {}
+      }
+    >
+      {showPrimitives && (
+        <PrimitiveLabel name="Root" icon={Container} color="text-purple-600" />
+      )}
+      <Accordion.Root
+        type="multiple"
+        value={openItems}
+        onValueChange={setOpenItems}
+      >
+        {items.map((item, index) => {
+          const isOpen = openItems.includes(`item-${index}`);
+          return (
+            <div
+              key={index}
+              style={
+                showPrimitives
+                  ? {
+                      position: "relative",
+                      padding: "8px",
+                      border: "2px dashed blue",
+                      borderRadius: "8px",
+                      marginBottom: "8px",
+                    }
+                  : {}
+              }
+            >
+              {showPrimitives && (
+                <PrimitiveLabel name="Item" icon={Box} color="text-blue-600" />
+              )}
+              <Accordion.Item value={`item-${index}`}>
+                <div
+                  style={
+                    showPrimitives
+                      ? {
+                          position: "relative",
+                          border: "2px dashed green",
+                          borderRadius: "8px",
+                        }
+                      : {}
+                  }
+                >
+                  {showPrimitives && (
+                    <PrimitiveLabel
+                      name="Header"
+                      icon={Layers}
+                      color="text-green-600"
+                      position="top-right"
+                    />
+                  )}
+                  <Accordion.Header>
+                    <div
+                      style={
+                        showPrimitives
+                          ? {
+                              position: "relative",
+                              border: "2px dashed orange",
+                              borderRadius: "8px",
+                            }
+                          : {}
+                      }
+                    >
+                      {showPrimitives && (
+                        <PrimitiveLabel
+                          name="Trigger"
+                          icon={MousePointer}
+                          color="text-orange-600"
+                          position="top-center"
+                        />
+                      )}
+                      <Accordion.Trigger>
+                        {item.title} {isOpen ? "◇" : "◆"}
+                      </Accordion.Trigger>
+                    </div>
+                  </Accordion.Header>
+                </div>
+                <div
+                  style={
+                    showPrimitives && isOpen
+                      ? {
+                          position: "relative",
+                          border: "2px dashed red",
+                          borderRadius: "8px",
+                          marginTop: "4px",
+                        }
+                      : {}
+                  }
+                >
+                  {showPrimitives && isOpen && (
+                    <PrimitiveLabel
+                      name="Content"
+                      icon={FileCode}
+                      color="text-red-600"
+                      position="bottom-right"
+                    />
+                  )}
+                  <Accordion.Content>{item.content}</Accordion.Content>
+                </div>
+              </Accordion.Item>
+            </div>
+          );
+        })}
+      </Accordion.Root>
+    </div>
+  );
+};
+
+// Accordion Variants with Primitive Outlines
+const AccordionVariant1 = ({ brand, brandKey, items, showPrimitives }) => {
+  const [openItems, setOpenItems] = React.useState([]);
+
+  // Brand-specific icons for Variant 1
+  const getIcons = () => {
+    switch (brandKey) {
+      case "modern":
+        return { open: ChevronUp, closed: ChevronDown };
+      case "elegant":
+        return { open: Sparkles, closed: Sparkle };
+      case "playful":
+        return { open: SmilePlus, closed: Smile };
+      default:
+        return { open: Minus, closed: Plus };
+    }
+  };
+
+  const icons = getIcons();
+
+  return (
+    <div
+      className={`relative ${showPrimitives ? "p-4 border-2 border-dashed border-purple-400 rounded-xl" : ""}`}
+    >
+      {showPrimitives && (
+        <PrimitiveLabel name="Root" icon={Container} color="text-purple-600" />
+      )}
+      <Accordion.Root
+        type="multiple"
+        value={openItems}
+        onValueChange={setOpenItems}
+        className="w-full space-y-2"
+      >
+        {items.map((item, index) => (
+          <div
+            key={index}
+            className={`relative ${showPrimitives ? "p-2 border-2 border-dashed border-blue-400 rounded-lg" : ""}`}
+          >
+            {showPrimitives && (
+              <PrimitiveLabel name="Item" icon={Box} color="text-blue-600" />
+            )}
+            <Accordion.Item
+              value={`item-${index}`}
+              className={`border ${brand.colors.border} ${brand.rounded} overflow-hidden ${brand.shadow}`}
+            >
+              <div
+                className={`relative ${showPrimitives ? "border-2 border-dashed border-green-400" : ""}`}
+              >
+                {showPrimitives && (
+                  <PrimitiveLabel
+                    name="Header"
+                    icon={Layers}
+                    color="text-green-600"
+                    position="top-right"
+                  />
+                )}
+                <Accordion.Header>
+                  <div
+                    className={`relative ${showPrimitives ? "border-2 border-dashed border-orange-400" : ""}`}
                   >
                     {showPrimitives && (
                       <PrimitiveLabel
@@ -200,9 +546,9 @@ const AccordionVariant1 = ({
                       <span>{item.title}</span>
                       <span className="transition-transform duration-200">
                         {openItems.includes(`item-${index}`) ? (
-                          <Minus className="w-5 h-5" />
+                          <icons.open className="w-5 h-5" />
                         ) : (
-                          <Plus className="w-5 h-5" />
+                          <icons.closed className="w-5 h-5" />
                         )}
                       </span>
                     </Accordion.Trigger>
@@ -210,11 +556,7 @@ const AccordionVariant1 = ({
                 </Accordion.Header>
               </div>
               <div
-                className={`relative ${
-                  showPrimitives && openItems.includes(`item-${index}`)
-                    ? "border-2 border-t-0 border-dashed border-red-400"
-                    : ""
-                }`}
+                className={`relative ${showPrimitives && openItems.includes(`item-${index}`) ? "border-2 border-t-0 border-dashed border-red-400" : ""}`}
               >
                 {showPrimitives && openItems.includes(`item-${index}`) && (
                   <PrimitiveLabel
@@ -238,31 +580,31 @@ const AccordionVariant1 = ({
   );
 };
 
-const AccordionVariant2 = ({
-  brand,
-  items,
-  showPrimitives,
-}: {
-  brand: any;
-  items: any[];
-  showPrimitives: boolean;
-}) => {
-  const [openItems, setOpenItems] = React.useState<string[]>(["item-0"]);
+const AccordionVariant2 = ({ brand, brandKey, items, showPrimitives }) => {
+  const [openItems, setOpenItems] = React.useState(["item-0"]);
+
+  // Brand-specific icons for Variant 2
+  const getIcon = () => {
+    switch (brandKey) {
+      case "modern":
+        return openItems.length > 0 ? Terminal : Code2;
+      case "elegant":
+        return Diamond;
+      case "playful":
+        return openItems.length > 0 ? Pause : Play;
+      default:
+        return ArrowRight;
+    }
+  };
+
+  const Icon = getIcon();
 
   return (
     <div
-      className={`relative ${
-        showPrimitives
-          ? "p-4 border-2 border-dashed border-purple-400 rounded-xl"
-          : ""
-      }`}
+      className={`relative ${showPrimitives ? "p-4 border-2 border-dashed border-purple-400 rounded-xl" : ""}`}
     >
       {showPrimitives && (
-        <PrimitiveLabel
-          name="Accordion.Root"
-          icon={Container}
-          color="text-purple-600"
-        />
+        <PrimitiveLabel name="Root" icon={Container} color="text-purple-600" />
       )}
       <Accordion.Root
         type="single"
@@ -270,12 +612,10 @@ const AccordionVariant2 = ({
         onValueChange={(value) => setOpenItems(value ? [value] : [])}
         className={`w-full border ${brand.colors.border} ${brand.rounded} ${brand.shadow} overflow-hidden`}
       >
-        {items.map((item: any, index: number) => (
+        {items.map((item, index) => (
           <div
             key={index}
-            className={`relative ${
-              showPrimitives ? "border-2 border-dashed border-blue-400 m-2" : ""
-            }`}
+            className={`relative ${showPrimitives ? "border-2 border-dashed border-blue-400 m-2" : ""}`}
           >
             {showPrimitives && (
               <PrimitiveLabel name="Item" icon={Box} color="text-blue-600" />
@@ -285,11 +625,7 @@ const AccordionVariant2 = ({
               className={index > 0 ? `border-t ${brand.colors.border}` : ""}
             >
               <div
-                className={`relative ${
-                  showPrimitives
-                    ? "border-2 border-dashed border-green-400"
-                    : ""
-                }`}
+                className={`relative ${showPrimitives ? "border-2 border-dashed border-green-400" : ""}`}
               >
                 {showPrimitives && (
                   <PrimitiveLabel
@@ -301,11 +637,7 @@ const AccordionVariant2 = ({
                 )}
                 <Accordion.Header>
                   <div
-                    className={`relative ${
-                      showPrimitives
-                        ? "border-2 border-dashed border-orange-400"
-                        : ""
-                    }`}
+                    className={`relative ${showPrimitives ? "border-2 border-dashed border-orange-400" : ""}`}
                   >
                     {showPrimitives && (
                       <PrimitiveLabel
@@ -320,10 +652,24 @@ const AccordionVariant2 = ({
                     >
                       <span
                         className={`transition-transform duration-200 ${
-                          openItems.includes(`item-${index}`) ? "rotate-90" : ""
+                          openItems.includes(`item-${index}`)
+                            ? brandKey === "elegant"
+                              ? "rotate-45"
+                              : brandKey === "modern"
+                                ? ""
+                                : "scale-110"
+                            : ""
                         }`}
                       >
-                        <ArrowRight className="w-4 h-4" />
+                        {brandKey === "modern" &&
+                        openItems.includes(`item-${index}`) ? (
+                          <Terminal className="w-4 h-4" />
+                        ) : brandKey === "playful" &&
+                          openItems.includes(`item-${index}`) ? (
+                          <Pause className="w-4 h-4" />
+                        ) : (
+                          <Icon className="w-4 h-4" />
+                        )}
                       </span>
                       <span className="flex-1">{item.title}</span>
                       <span
@@ -338,11 +684,7 @@ const AccordionVariant2 = ({
                 </Accordion.Header>
               </div>
               <div
-                className={`relative ${
-                  showPrimitives && openItems.includes(`item-${index}`)
-                    ? "border-2 border-t-0 border-dashed border-red-400"
-                    : ""
-                }`}
+                className={`relative ${showPrimitives && openItems.includes(`item-${index}`) ? "border-2 border-t-0 border-dashed border-red-400" : ""}`}
               >
                 {showPrimitives && openItems.includes(`item-${index}`) && (
                   <PrimitiveLabel
@@ -366,23 +708,35 @@ const AccordionVariant2 = ({
   );
 };
 
-const AccordionVariant3 = ({
-  brand,
-  items,
-  showPrimitives,
-}: {
-  brand: any;
-  items: any[];
-  showPrimitives: boolean;
-}) => {
-  const [openItems, setOpenItems] = React.useState<string[]>([]);
+const AccordionVariant3 = ({ brand, brandKey, items, showPrimitives }) => {
+  const [openItems, setOpenItems] = React.useState([]);
 
-  const getIcon = (isOpen: boolean, index: number) => {
-    const icons = [
+  const getIcon = (isOpen, index) => {
+    // Brand-specific icon sets for Variant 3
+    const brandIcons = {
+      modern: [
+        { closed: Cpu, open: Cpu },
+        { closed: Wifi, open: WifiOff },
+        { closed: Database, open: DatabaseBackup },
+      ],
+      elegant: [
+        { closed: Star, open: StarOff },
+        { closed: Heart, open: HeartHandshake },
+        { closed: Crown, open: Diamond },
+      ],
+      playful: [
+        { closed: Zap, open: ZapOff },
+        { closed: Palette, open: Music },
+        { closed: Music2, open: Smile },
+      ],
+    };
+
+    const icons = brandIcons[brandKey] || [
       { closed: Circle, open: CircleDot },
       { closed: Square, open: SquareCheck },
       { closed: Triangle, open: Diamond },
     ];
+
     const iconSet = icons[index % icons.length];
     const Icon = isOpen ? iconSet.open : iconSet.closed;
     return <Icon className="w-5 h-5" />;
@@ -390,18 +744,10 @@ const AccordionVariant3 = ({
 
   return (
     <div
-      className={`relative ${
-        showPrimitives
-          ? "p-4 border-2 border-dashed border-purple-400 rounded-xl"
-          : ""
-      }`}
+      className={`relative ${showPrimitives ? "p-4 border-2 border-dashed border-purple-400 rounded-xl" : ""}`}
     >
       {showPrimitives && (
-        <PrimitiveLabel
-          name="Accordion.Root"
-          icon={Container}
-          color="text-purple-600"
-        />
+        <PrimitiveLabel name="Root" icon={Container} color="text-purple-600" />
       )}
       <Accordion.Root
         type="multiple"
@@ -409,31 +755,19 @@ const AccordionVariant3 = ({
         onValueChange={setOpenItems}
         className="w-full space-y-3"
       >
-        {items.map((item: any, index: number) => {
+        {items.map((item, index) => {
           const isOpen = openItems.includes(`item-${index}`);
           return (
             <div
               key={index}
-              className={`relative ${
-                showPrimitives
-                  ? "p-2 border-2 border-dashed border-blue-400 rounded-lg"
-                  : ""
-              }`}
+              className={`relative ${showPrimitives ? "p-2 border-2 border-dashed border-blue-400 rounded-lg" : ""}`}
             >
               {showPrimitives && (
-                <PrimitiveLabel
-                  name="Accordion.Item"
-                  icon={Box}
-                  color="text-blue-600"
-                />
+                <PrimitiveLabel name="Item" icon={Box} color="text-blue-600" />
               )}
               <Accordion.Item value={`item-${index}`} className="w-full">
                 <div
-                  className={`relative ${
-                    showPrimitives
-                      ? "border-2 border-dashed border-green-400 rounded-lg"
-                      : ""
-                  }`}
+                  className={`relative ${showPrimitives ? "border-2 border-dashed border-green-400 rounded-lg" : ""}`}
                 >
                   {showPrimitives && (
                     <PrimitiveLabel
@@ -445,11 +779,7 @@ const AccordionVariant3 = ({
                   )}
                   <Accordion.Header>
                     <div
-                      className={`relative ${
-                        showPrimitives
-                          ? "border-2 border-dashed border-orange-400 rounded-lg"
-                          : ""
-                      }`}
+                      className={`relative ${showPrimitives ? "border-2 border-dashed border-orange-400 rounded-lg" : ""}`}
                     >
                       {showPrimitives && (
                         <PrimitiveLabel
@@ -460,20 +790,12 @@ const AccordionVariant3 = ({
                         />
                       )}
                       <Accordion.Trigger
-                        className={`w-full p-4 ${brand.rounded} ${
-                          brand.shadow
-                        } ${
-                          isOpen ? brand.colors.primary : brand.colors.secondary
-                        } transition-all duration-300 ${brand.fonts.heading} ${
-                          isOpen ? "text-white" : brand.colors.text
-                        }`}
+                        className={`w-full p-4 ${brand.rounded} ${brand.shadow} ${isOpen ? brand.colors.primary : brand.colors.secondary} transition-all duration-300 ${brand.fonts.heading} ${isOpen ? "text-white" : brand.colors.text}`}
                       >
                         <div className="flex items-center justify-between">
                           <span>{item.title}</span>
                           <span
-                            className={`transition-all duration-300 ${
-                              isOpen ? "rotate-180" : ""
-                            }`}
+                            className={`transition-all duration-300 ${isOpen ? "rotate-180" : ""}`}
                           >
                             {getIcon(isOpen, index)}
                           </span>
@@ -483,11 +805,7 @@ const AccordionVariant3 = ({
                   </Accordion.Header>
                 </div>
                 <div
-                  className={`relative ${
-                    showPrimitives && isOpen
-                      ? "border-2 border-dashed border-red-400 rounded-lg mt-1"
-                      : ""
-                  }`}
+                  className={`relative ${showPrimitives && isOpen ? "border-2 border-dashed border-red-400 rounded-lg mt-1" : ""}`}
                 >
                   {showPrimitives && isOpen && (
                     <PrimitiveLabel
@@ -577,6 +895,111 @@ const PrimitiveLegend = () => {
   );
 };
 
+// Primitive Anatomy Component
+const PrimitiveAnatomy = () => {
+  const primitives = [
+    {
+      name: "Accordion.Root",
+      icon: Container,
+      color: "purple",
+      description:
+        "The root container that provides context and manages state for all accordion items",
+      props: [
+        'type="single|multiple"',
+        "value",
+        "onValueChange",
+        "disabled",
+        "dir",
+        "orientation",
+      ],
+    },
+    {
+      name: "Accordion.Item",
+      icon: Box,
+      color: "blue",
+      description:
+        "A single collapsible section containing a header and content panel",
+      props: ["value", "disabled"],
+    },
+    {
+      name: "Accordion.Header",
+      icon: Layers,
+      color: "green",
+      description:
+        "Wraps the trigger button to ensure proper accessibility attributes",
+      props: ["asChild"],
+    },
+    {
+      name: "Accordion.Trigger",
+      icon: MousePointer,
+      color: "orange",
+      description:
+        "The interactive button that toggles the accordion item open/closed",
+      props: ["asChild"],
+    },
+    {
+      name: "Accordion.Content",
+      icon: FileCode,
+      color: "red",
+      description:
+        "The collapsible content area that shows/hides based on state",
+      props: ["asChild", "forceMount"],
+    },
+  ];
+
+  return (
+    <div className="bg-gray-900 text-white p-8 rounded-xl">
+      <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
+        <Code2 className="w-6 h-6" />
+        Radix UI Accordion Primitives
+      </h3>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        {primitives.map((primitive) => (
+          <div
+            key={primitive.name}
+            className={`p-4 rounded-lg border-2 bg-gray-800 border-${primitive.color}-500`}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <primitive.icon
+                className={`w-5 h-5 text-${primitive.color}-400`}
+              />
+              <code className="text-sm font-mono">{primitive.name}</code>
+            </div>
+            <p className="text-xs text-gray-400 mb-2">
+              {primitive.description}
+            </p>
+            <div className="space-y-1">
+              <p className="text-xs font-semibold text-gray-500">Props:</p>
+              {primitive.props.map((prop) => (
+                <code key={prop} className="text-xs text-gray-500 block">
+                  • {prop}
+                </code>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="bg-gray-800 p-4 rounded-lg">
+        <h4 className="text-sm font-bold mb-2 text-gray-300">
+          Component Structure:
+        </h4>
+        <pre className="text-xs text-gray-400 font-mono">
+          {`<Accordion.Root>
+  <Accordion.Item>
+    <Accordion.Header>
+      <Accordion.Trigger />
+    </Accordion.Header>
+    <Accordion.Content />
+  </Accordion.Item>
+</Accordion.Root>`}
+        </pre>
+      </div>
+    </div>
+  );
+};
+
 // Sample content
 const accordionItems = [
   {
@@ -623,7 +1046,8 @@ export default function BrandAccordionShowcase() {
       <div className="p-8">
         <div className="max-w-7xl mx-auto">
           <p className="text-center text-gray-600 mb-8">
-            3 Unique Brands × 3 Accordion Variants = 9 Distinct Experiences
+            Unstyled Primitives → 3 Unique Brands × 3 Accordion Variants =
+            Complete Design System
           </p>
 
           {/* Primitive Legend */}
@@ -638,6 +1062,91 @@ export default function BrandAccordionShowcase() {
             <PrimitiveAnatomy />
           </div> */}
 
+          {/* Unstyled Primitives Section */}
+          <div className="mb-12 p-8 bg-gray-100 rounded-xl">
+            <h2 className="text-2xl font-bold mb-2 text-gray-900">
+              Unstyled Primitives
+            </h2>
+            <p className="text-gray-600 mb-8">
+              Raw Accordion primitives without any styling
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">
+                  Variant 1: Multi-Select
+                </h3>
+                <UnstyledAccordionVariant1
+                  items={accordionItems}
+                  showPrimitives={showPrimitives}
+                />
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">
+                  Variant 2: Single-Select
+                </h3>
+                <UnstyledAccordionVariant2
+                  items={accordionItems}
+                  showPrimitives={showPrimitives}
+                />
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">
+                  Variant 3: Multi-Select with Icons
+                </h3>
+                <UnstyledAccordionVariant3
+                  items={accordionItems}
+                  showPrimitives={showPrimitives}
+                />
+              </div>
+            </div>
+
+            {/* <div className="mt-6 p-4 bg-white rounded-lg">
+              <h4 className="font-semibold text-sm mb-2">
+                What you're seeing:
+              </h4>
+              <ul className="text-sm text-gray-600 space-y-1">
+                <li>• No CSS classes or Tailwind utilities applied</li>
+                <li>
+                  • Browser default styles only (button appearance, focus rings,
+                  etc.)
+                </li>
+                <li>
+                  • Radix UI's built-in accessibility features (ARIA attributes,
+                  keyboard navigation)
+                </li>
+                <li>
+                  • Minimal inline styles used only for primitive outline
+                  visualization when enabled
+                </li>
+                <li>
+                  • The{" "}
+                  <code className="px-1 py-0.5 bg-gray-100 rounded text-xs">
+                    Accordion.Trigger
+                  </code>{" "}
+                  renders as an unstyled button element
+                </li>
+                <li>
+                  • The{" "}
+                  <code className="px-1 py-0.5 bg-gray-100 rounded text-xs">
+                    Accordion.Content
+                  </code>{" "}
+                  handles open/close animations automatically
+                </li>
+              </ul>
+            </div> */}
+          </div>
+
+          <h2 className="text-2xl font-bold mb-2 text-gray-900">
+            Styled Brand Variations
+          </h2>
+          <p className="text-gray-600 mb-8">
+            Same primitives enhanced with brand-specific styling, animations,
+            and custom icons
+          </p>
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {Object.entries(brands).map(([brandKey, brand]) => (
               <div key={brandKey} className="space-y-8">
@@ -645,7 +1154,7 @@ export default function BrandAccordionShowcase() {
                   <h2
                     className={`text-2xl mb-2 ${brand.fonts.heading} ${brand.colors.text}`}
                   >
-                    {brand.name}
+                    Brand colors
                   </h2>
                   <div className="flex justify-center gap-2 mb-4">
                     <div
@@ -663,10 +1172,17 @@ export default function BrandAccordionShowcase() {
                 <div className="space-y-8">
                   <div>
                     <h3 className="text-sm font-semibold text-gray-500 mb-3">
-                      Variant 1: Plus/Minus Multi-Select
+                      Variant 1:{" "}
+                      {brandKey === "modern"
+                        ? "Chevron"
+                        : brandKey === "elegant"
+                          ? "Sparkle"
+                          : "Smile"}{" "}
+                      Multi-Select
                     </h3>
                     <AccordionVariant1
                       brand={brand}
+                      brandKey={brandKey}
                       items={accordionItems}
                       showPrimitives={showPrimitives}
                     />
@@ -674,10 +1190,17 @@ export default function BrandAccordionShowcase() {
 
                   <div>
                     <h3 className="text-sm font-semibold text-gray-500 mb-3">
-                      Variant 2: Arrow Single-Select with Status
+                      Variant 2:{" "}
+                      {brandKey === "modern"
+                        ? "Code/Terminal"
+                        : brandKey === "elegant"
+                          ? "Diamond"
+                          : "Play/Pause"}{" "}
+                      Single-Select
                     </h3>
                     <AccordionVariant2
                       brand={brand}
+                      brandKey={brandKey}
                       items={accordionItems}
                       showPrimitives={showPrimitives}
                     />
@@ -685,10 +1208,17 @@ export default function BrandAccordionShowcase() {
 
                   <div>
                     <h3 className="text-sm font-semibold text-gray-500 mb-3">
-                      Variant 3: Dynamic Icons with Color Change
+                      Variant 3:{" "}
+                      {brandKey === "modern"
+                        ? "Tech Icons"
+                        : brandKey === "elegant"
+                          ? "Luxury Icons"
+                          : "Creative Icons"}{" "}
+                      with Color Change
                     </h3>
                     <AccordionVariant3
                       brand={brand}
+                      brandKey={brandKey}
                       items={accordionItems}
                       showPrimitives={showPrimitives}
                     />
@@ -697,83 +1227,6 @@ export default function BrandAccordionShowcase() {
               </div>
             ))}
           </div>
-
-          {/* <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6"> */}
-          <div className="mt-16">
-            <div className="p-6 bg-white rounded-lg shadow-sm">
-              <h2 className="text-xl font-bold mb-4">Design System Overview</h2>
-              <div className="grid grid-cols-1 gap-6 text-sm">
-                <div>
-                  <h3 className="font-semibold mb-2">Modern Tech</h3>
-                  <ul className="space-y-1 text-gray-600">
-                    <li>• Clean, minimal aesthetic</li>
-                    <li>• Blue/Cyan color palette</li>
-                    <li>• Sans-serif typography</li>
-                    <li>• Soft rounded corners</li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-2">Elegant Luxe</h3>
-                  <ul className="space-y-1 text-gray-600">
-                    <li>• Sophisticated, premium feel</li>
-                    <li>• Purple/Gold accents</li>
-                    <li>• Serif typography</li>
-                    <li>• Sharp corners</li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-2">Playful Pop</h3>
-                  <ul className="space-y-1 text-gray-600">
-                    <li>• Fun, energetic vibe</li>
-                    <li>• Pink/Yellow/Green palette</li>
-                    <li>• Mixed typography</li>
-                    <li>• Extra rounded corners</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* <div className="p-6 bg-white rounded-lg shadow-sm">
-              <h2 className="text-xl font-bold mb-4">Implementation Notes</h2>
-              <div className="space-y-3 text-sm text-gray-600">
-                <div>
-                  <h4 className="font-semibold text-gray-800">
-                    Accessibility Features:
-                  </h4>
-                  <p>
-                    All accordions are fully keyboard navigable with proper ARIA
-                    attributes handled by Primitive components.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-800">
-                    State Management:
-                  </h4>
-                  <p>
-                    Single vs Multiple selection modes controlled via the type
-                    prop on Accordion.Root.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-800">Animation:</h4>
-                  <p>
-                    Smooth transitions using Tailwind's transition utilities and
-                    transform properties.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-800">
-                    Customization:
-                  </h4>
-                  <p>
-                    Each primitive accepts the asChild prop for complete control
-                    over rendering.
-                  </p>
-                </div>
-              </div>
-            </div> */}
-          {/* </div> */}
         </div>
       </div>
     </div>
