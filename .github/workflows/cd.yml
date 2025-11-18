@@ -45,6 +45,9 @@ jobs:
       - name: 💄 Check formatting
         run: bun format:check
 
+      - name: 📟 Lint
+        run: bun run lint
+
       - name: 🏗 Build
         run: bun run build
 
