@@ -34,3 +34,10 @@ updates:
       day: wednesday
       time: "07:00"
       timezone: Etc/UTC
+    groups:
+      react:
+        patterns:
+          - react
+          - react-dom
+          - "@types/react"
+          - "@types/react-dom"
